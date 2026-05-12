@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Data
+data/raw/
+data/processed/
+*.zip
+*.tar.gz
+
+# Models
+models/*.keras
+models/*.h5
+models/*.pkl
+
+# Logs
+logs/
+mlruns/
+
+# IDE
+.vscode/
+.idea/
+
+# DVC
+.dvc/

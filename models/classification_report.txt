@@ -1,0 +1,10 @@
+                      precision    recall  f1-score   support
+
+Cercospora_leaf_spot       0.79      0.64      0.71      1922
+         Common_rust       0.95      0.99      0.97      4500
+Northern_Leaf_Blight       0.82      0.85      0.84      3733
+             healthy       0.97      0.98      0.97      4369
+
+            accuracy                           0.90     14524
+           macro avg       0.88      0.87      0.87     14524
+        weighted avg       0.90      0.90      0.90     14524
