@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4  # ✅ checkout v4 वर update केले
     
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5  # ✅ setup-python v5 वर update केले
       with:
         python-version: '3.10'
     
@@ -32,13 +32,13 @@ jobs:
       run: python src/evaluate.py
     
     - name: Upload model artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # ✅ **v3 वरून v4 केले (हे बदल सर्वात महत्त्वाचे)** 
       with:
         name: trained-model
         path: models/
     
     - name: Upload metrics
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # ✅ **v3 वरून v4 केले**
       with:
         name: metrics
         path: models/test_metrics.csv
