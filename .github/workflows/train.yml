@@ -1,0 +1,44 @@
+name: Train and Deploy Model
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'requirements.txt'
+  workflow_dispatch:
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install tensorflow numpy pandas matplotlib seaborn scikit-learn opencv-python pillow
+    
+    - name: Train model
+      run: python src/train.py
+    
+    - name: Evaluate model
+      run: python src/evaluate.py
+    
+    - name: Upload model artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: trained-model
+        path: models/
+    
+    - name: Upload metrics
+      uses: actions/upload-artifact@v3
+      with:
+        name: metrics
+        path: models/test_metrics.csv
