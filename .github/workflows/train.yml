@@ -31,43 +31,15 @@ jobs:
     - name: Pull data from DVC
       run: |
         dvc remote add -d localbackup /tmp/dvc-cache 2>/dev/null || true
-        dvc pull || echo "No DVC remote configured, using synthetic data fallback"
+        dvc pull || echo "No DVC remote configured"
     
-    - name: Create synthetic data if real data not available
+    - name: Create synthetic data
       run: |
-        python -c "
-import numpy as np
-from PIL import Image
-from pathlib import Path
-
-base_dir = Path('data/raw/Corn_synthetic')
-classes = ['Common_rust', 'Cercospora_leaf_spot', 'Northern_Leaf_Blight', 'healthy']
-
-for class_name in classes:
-    class_dir = base_dir / class_name
-    class_dir.mkdir(parents=True, exist_ok=True)
-    for i in range(50):
-        img_array = np.random.randint(50, 200, (224, 224, 3), dtype=np.uint8)
-        img = Image.fromarray(img_array)
-        img.save(class_dir / f'{class_name}_{i}.jpg')
-
-print('Synthetic dataset created with 200 images')
-"
+        python src/create_synthetic_data.py
     
     - name: Update config for quick training
       run: |
-        python -c "
-import os
-config_path = 'src/config.py'
-if os.path.exists(config_path):
-    with open(config_path, 'r') as f:
-        content = f.read()
-    content = content.replace('EPOCHS = 20', 'EPOCHS = 2')
-    content = content.replace('EPOCHS = 3', 'EPOCHS = 2')
-    with open(config_path, 'w') as f:
-        f.write(content)
-    print('Updated epochs to 2')
-"
+        python src/update_config.py
     
     - name: Train model
       run: python src/train.py
